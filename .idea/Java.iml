@@ -8,6 +8,7 @@
       <sourceFolder url="file://$MODULE_DIR$/Data&amp;Algorthm/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/MyFunction/FunctionFile/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Data&amp;Algorthm/DataSearchAlgorthm/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Ojbect/src" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
