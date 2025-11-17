@@ -11,15 +11,17 @@ public class Character implements CharacterPrototype {
     private double hp;
     private double attackPower;
     private double defensePower;
+    private double magicPower;
     private List<String> skillList;
 
     public Character(String name, int level, double hp, double attackPower,
-                     double defensePower, List<String> skillList) {
+                     double defensePower, double magicPower, List<String> skillList) {
         this.name = name;
         this.level = level;
         this.hp = hp;
         this.attackPower = attackPower;
         this.defensePower = defensePower;
+        this.magicPower = magicPower;
         this.skillList = skillList;
     }
 
@@ -36,16 +38,27 @@ public class Character implements CharacterPrototype {
                 this.hp,
                 this.attackPower,
                 this.defensePower,
+                this.magicPower,
                 clonedSkills  // 깊은 복제된 리스트 전달
         );
         return clonedCharacter;
+
+//        return new Character(
+//                this.name,
+//                this.level,
+//                this.hp,
+//                this.attackPower,
+//                this.defensePower,
+//                clonedSkills  // 깊은 복제된 리스트 전달
+//        );
     }
 
+    // 상태 출력 메서드
     @Override
     public String toString(){
         return String.format(
-                "캐릭터: %s (Lv.%d HP: %.1f, 공격력: %.1f), 스킬: %s",
-                name, level, hp, attackPower, skillList
+                "캐릭터: %s (Lv.%d, HP: %.1f, 공격력: %.1f, 방어력: %.1f, 마법공격력: %.1f), 스킬: %s",
+                name, level, hp, attackPower, defensePower, magicPower, skillList
         );
     }
 
@@ -65,11 +78,17 @@ public class Character implements CharacterPrototype {
     public double getDefensePower(){
         return defensePower;
     }
+    public double getMagicPower(){
+        return magicPower;
+    }
     public List<String> getSkillList(){
         // 내부 리스트의 복사본인 새 ArrayList를 생성하여 반환 / 내부 데이터 보호
         return new ArrayList<>(skillList);
     }
-
+    // 스킬리스트가 추가가 안됌 -> 새 리스트로 추가해서 그런 것 같음
+    public void addSkill(String skillName){
+        this.skillList.add(skillName);
+    }
 
     // Setter
     public void setName(String name){
@@ -86,6 +105,9 @@ public class Character implements CharacterPrototype {
     }
     public void setDefensePower(double defensePower){
         this.defensePower = defensePower;
+    }
+    public void setMagicPower(double magicPower){
+        this.magicPower = magicPower;
     }
     public void setSkillList(List<String> skillList){
         this.skillList = skillList;
