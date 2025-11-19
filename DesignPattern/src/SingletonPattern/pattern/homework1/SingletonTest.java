@@ -1,5 +1,7 @@
 package SingletonPattern.pattern.homework1;
 
+import java.util.List;
+
 public class SingletonTest {
     public static void main(String[] args) {
         // 1. 인스턴스 생성
@@ -25,5 +27,26 @@ public class SingletonTest {
         System.out.println("logger2 =" + logger2.hashCode());
         System.out.println("logger3 =" + logger3.hashCode());
 
+        // 4. 로그 저장 및 포맷 검증 테스트
+        System.out.println("로그 저장 및 포맷 검증 테스트 실행");
+        logger1.info("앱 초기화 완료");
+        logger2.warn("설정 파일 로드 지연");
+        logger2.error("DB 연결 실패");
+
+        // 5. 로그 저장 및 조회 테스트 / logger1과 logger2는 동일한 객체 참조
+        List<String> allLogs = logger2.getLogs(); // getLogs를 통해서
+        System.out.println("총 기록 로그 수 : " + allLogs.size());
+        // logger1에 저장된 로그도 저장함
+        System.out.println("전체 로그 내용");
+        for (String log : allLogs) {
+            System.out.println(log);
+        }
+
+        // 6. 확장 검증 (FileAdapter 추가)
+        FileAdapter fileAdapter = new FileAdapter();
+        logger1.addObserver(fileAdapter);
+
+        System.out.println("새 FileAdapter 추가");
+        logger1.log("파일 저장 채널 추가 후 테스트 로그");
     }
 }

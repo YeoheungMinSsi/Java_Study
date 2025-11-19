@@ -11,12 +11,17 @@ public class Logger {
     private static final DateTimeFormatter formatter = DateTimeFormatter.
             ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
-    // 내부 배열 log
+    private final List<LogObserver> observers = new ArrayList<>();
+
+    // 내부 배열(리스트) logs에 로그를 저장함
     private final List<String> logs;
 
     // note: private를 통해서 new를 통해서 생성자 생성을 막음
     private Logger() {
         this.logs = new ArrayList<>();
+        // note: 메모리에 저장하는 Appender(InMemoryAppender)를 기본 옵저버로 등록
+        this.observers.add(new InMemoryAdapter(this.logs));
+        this.observers.add(new ConsoleAdapter());
     }
 
     // Bill Push 싱글턴 패턴
@@ -29,36 +34,52 @@ public class Logger {
         return LoggerHolder.INSTANCE;
     }
 
-    private void printLogs(LogLevel level, String message){
-        // note: ISO 8601 포맷 타임스탬프를 위해 ZoneOffset 라이브러리 사용
+    // note: 어뎁터 관리
+    public void addObserver(LogObserver observer) {
+        this.observers.add(observer);
+    }
+
+    public void removeObserver(LogObserver observer) {
+        this.observers.remove(observer);
+    }
+
+    private void notifyObserver(String logEntry) {
+        // 등록된 모든 옵저버(Appender)에게 로그 전송
+        for (LogObserver observer : this.observers) {
+            observer.log(logEntry);
+        }
+    }
+
+    private void createAndDistributeLog(LogLevel level, String message) {
+        // ISO 8601 포맷 생성
         String timeStamp = LocalDateTime.now(ZoneOffset.UTC).format(formatter);
-        String levelName = level.toString();
+        String levelString = level.toString();
 
-        String log = String.format("[%s][%s] %s", levelName, timeStamp, message);
-        // 로그 출력 부분
-        System.out.println(log);
-        // logs배열 안에 log 저장
-        this.logs.add(log);
+        // [LEVEL][TIMESTAMP] MESSAGE 형식으로 로그 엔트리 생성
+        String logEntry = String.format("[%s][%s] %s", levelString, timeStamp, message);
+
+        // 출력/저장 로직 - 옵저버에게 맞김
+        notifyObserver(logEntry);
     }
 
-    public void log(String message){
-        printLogs(LogLevel.LOG, message);
+    public void log(String message) {
+        createAndDistributeLog(LogLevel.LOG, message);
     }
 
-    public void info(String message){
-        printLogs(LogLevel.INFO, message);
+    public void info(String message) {
+        createAndDistributeLog(LogLevel.INFO, message);
     }
 
-    public void warn(String message){
-        printLogs(LogLevel.WARN, message);
+    public void warn(String message) {
+        createAndDistributeLog(LogLevel.WARN, message);
     }
 
-    public void error(String message){
-        printLogs(LogLevel.ERROR, message);
+    public void error(String message) {
+        createAndDistributeLog(LogLevel.ERROR, message);
     }
 
-    public List<String> getLogs(){
+    public List<String> getLogs() {
         return this.logs;
     }
-    
+
 }
