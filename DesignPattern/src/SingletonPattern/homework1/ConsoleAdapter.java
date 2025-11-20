@@ -1,4 +1,4 @@
-package SingletonPattern.pattern.homework1;
+package SingletonPattern.homework1;
 
 public class ConsoleAdapter implements LogObserver {
     // console 출력 구현체

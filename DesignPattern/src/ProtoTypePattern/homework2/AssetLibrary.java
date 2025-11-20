@@ -13,16 +13,27 @@ public class AssetLibrary {
 
     // 탬플릿 등록 메서드
     private void loadAssetsTemplate(){
-        Position btn = new Position(100, 100);
+        Position btnPos = new Position(100, 100);
         DesignElement btnTemplate = new DesignElement(
                 1,
-                btn,
+                btnPos,
                 100.0,
                 "red, yellow",
                 "confirm",
                 "BUTTON"
         );
         assets.put("DEFAULT_BTN", btnTemplate);
+
+        Position videoPos = new Position(200,200);
+        VideoElement videoTemplate = new VideoElement(
+                2,
+                videoPos,
+                640.0,
+                "red, yellow",
+                "video",
+                "VIDEO"
+        );
+        assets.put("DEFAULT_VIDEO", videoTemplate);
     }
 
     public DesignElementPrototype getAsset(String key){

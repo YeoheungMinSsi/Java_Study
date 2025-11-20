@@ -1,4 +1,4 @@
-package SingletonPattern.pattern.homework1;
+package SingletonPattern.homework1;
 
 // note : 로그 처리 객체(파일 저장, 콘솔 출력 등)가 구현해ㅑ할 규약 정의
 public interface LogObserver {

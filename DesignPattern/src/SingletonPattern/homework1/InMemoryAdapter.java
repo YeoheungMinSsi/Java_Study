@@ -1,4 +1,4 @@
-package SingletonPattern.pattern.homework1;
+package SingletonPattern.homework1;
 
 import java.util.List;
 
