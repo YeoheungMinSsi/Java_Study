@@ -15,6 +15,7 @@ public class DBConnector {
             case MOCK -> new MockConnection();
             case MYSQL -> new MySQLConnection();
             case POSTGRESQL -> new PostgreSQLConnection();
+            case FILE -> new FileConnection();
             default -> throw new IllegalArgumentException("지원하지 않는 DB 타입 입니다." + dbType);
         };
     }
