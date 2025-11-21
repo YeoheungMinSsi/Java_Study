@@ -12,48 +12,48 @@ public class MockConnection implements DBConnection {
     }
 
     // note: getInstance를 통해서만 인스턴스를 가져올 수 있도록 많듬
-    private static class DBConnectionHolder {
-        private static final MockConnection INSTANCE = new MockConnection();
-    }
+//    private static class DBConnectionHolder {
+//        private static final MockConnection INSTANCE = new MockConnection();
+//    }
 
-    public static MockConnection getInstance() {
-        return DBConnectionHolder.INSTANCE;
-    }
+//    public static MockConnection getInstance() {
+//        return DBConnectionHolder.INSTANCE;
+//    }
 
     // note: 연결/연결해제를 수행하는 메서드
     @Override
     public void connect() {
         // disconnected 상태일 때 connect로
         if (this.status == ConnectionStatus.DISCONNECTED) {
-            System.out.println("[DB] Connecting to database...");
+            System.out.println("[" + type + "DB] Connecting to database...");
             this.status = ConnectionStatus.CONNECTED;
-            System.out.println("[DB] Connected!");
+            System.out.println("[" + type + "DB] Connected!");
         } else {
-            System.out.println("[DB] Already connected to database.");
+            System.out.println("[" + type + "DB] Already connected to database.");
         }
     }
     @Override
     public void disconnect() {
         // Connected 상태일 때 disconnect로
         if (this.status == ConnectionStatus.CONNECTED) {
-            System.out.println("[DB] Disconnecting from database...");
+            System.out.println("[" + type + "DB] Disconnecting from database...");
 
             this.status = ConnectionStatus.DISCONNECTED;
-            System.out.println("[DB] Disconnected!");
+            System.out.println("[" + type + "DB] Disconnected!");
         } else {
-            System.out.println("[DB] Already disconnected from database.");
+            System.out.println("[" + type + "DB] Already disconnected from database.");
         }
     }
     @Override
     public Object query(String sql) {
         // DB가 연결되어있지 않다면
         if (this.status != ConnectionStatus.CONNECTED) {
-            System.out.println("[DB] Not connected to database.");
+            System.out.println("\"[\" + type + \"DB] Not connected to database.");
             return null;
         }
-        System.out.println("[SQL] Executing query(Query 실행): " + sql);
+        System.out.println("[SQL-"+ type + "] Executing query(Query 실행): " + sql);
 
-        return "Mock Result: 5 rows fetched successfully!";
+        return "Mock Result: Date received from" + sql;
     }
 
     @Override
